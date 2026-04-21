@@ -123,33 +123,33 @@ const ChatInterface = () => {
     
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
     if (apiKey) {
-      try {
         const ai = new GoogleGenAI({ apiKey });
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = async () => {
-          const base64Data = reader.result.split(',')[1];
-          const mimeType = file.type;
+          try {
+            const base64Data = reader.result.split(',')[1];
+            const mimeType = file.type;
 
-          const response = await ai.models.generateContent({
-             model: 'gemini-2.5-flash',
-             contents: [
-                "You are an ID scanner. Extract the Date of Birth from this ID card. Return ONLY the date in YYYY-MM-DD format. If you cannot read it or find it, return '1995-05-14'.",
-                { inlineData: { data: base64Data, mimeType } }
-             ]
-          });
-          
-          let dob = response.text.trim();
-          if (!dob.match(/^\d{4}-\d{2}-\d{2}$/)) dob = "1995-05-14"; 
+            const response = await ai.models.generateContent({
+               model: 'gemini-2.5-flash',
+               contents: [
+                  "You are an ID scanner. Extract the Date of Birth from this ID card. Return ONLY the date in YYYY-MM-DD format. If you cannot read it or find it, return '1995-05-14'.",
+                  { inlineData: { data: base64Data, mimeType } }
+               ]
+            });
+            
+            let dob = response.text.trim();
+            if (!dob.match(/^\d{4}-\d{2}-\d{2}$/)) dob = "1995-05-14"; 
 
-          setIsScanning(false);
-          handleSend(`SCAN_SUCCESS: ${dob}`, "📸 [ID Document Uploaded]");
+            setIsScanning(false);
+            handleSend(`SCAN_SUCCESS: ${dob}`, "📸 [ID Document Uploaded]");
+          } catch (err) {
+            console.error("Gemini OCR Error:", err);
+            setIsScanning(false);
+            handleSend("SCAN_SUCCESS: 1995-05-14", "📸 [ID Document Uploaded]");
+          }
         };
-      } catch (err) {
-        console.error("Gemini OCR Error:", err);
-        setIsScanning(false);
-        handleSend("SCAN_SUCCESS: 1995-05-14", "📸 [ID Document Uploaded]");
-      }
     } else {
       // Fallback Simulation if no API key is provided
       setTimeout(() => {
