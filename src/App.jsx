@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import { ElectionProvider } from './context/ElectionContext';
-import ChatInterface from './components/Chat/ChatInterface';
-import Timeline from './components/Dashboard/Timeline';
+import './App.css';
+
+// Code Splitting for max efficiency
+const ChatInterface = lazy(() => import('./components/Chat/ChatInterface'));
+const Timeline = lazy(() => import('./components/Dashboard/Timeline'));
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -27,8 +30,10 @@ function App() {
     <ErrorBoundary>
       <ElectionProvider>
         <div className="app-container">
-          <Timeline />
-          <ChatInterface />
+          <Suspense fallback={<div className="loading-spinner">Loading App...</div>}>
+            <Timeline />
+            <ChatInterface />
+          </Suspense>
         </div>
       </ElectionProvider>
     </ErrorBoundary>
