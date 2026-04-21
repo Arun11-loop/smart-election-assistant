@@ -129,6 +129,7 @@ export const processUserMessage = async (message, currentState, updateState) => 
   const lowerMsg = message.toLowerCase();
   
   let lang = currentState.language || 'English';
+  if (lowerMsg.includes('explain in english')) lang = 'English';
   if (lowerMsg.includes('explain in kannada')) lang = 'Kannada';
   if (lowerMsg.includes('explain in hindi')) lang = 'Hindi';
   if (lowerMsg.includes('explain in tamil')) lang = 'Tamil';
