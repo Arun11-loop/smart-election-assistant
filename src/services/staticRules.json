@@ -1,0 +1,29 @@
+{
+  "steps": [
+    {
+      "id": "verification",
+      "title": "Basic Details & Age",
+      "description": "Provide your name and date of birth to check age requirements."
+    },
+    {
+      "id": "eligibility",
+      "title": "Citizenship Check",
+      "description": "Verify your citizenship status to confirm full eligibility."
+    },
+    {
+      "id": "registration",
+      "title": "Voter Registration",
+      "description": "Register yourself on the official electoral roll."
+    },
+    {
+      "id": "polling",
+      "title": "Find Polling Station",
+      "description": "Locate where you need to go to cast your ballot."
+    },
+    {
+      "id": "voting",
+      "title": "Voting Day",
+      "description": "Bring your ID, verify your identity, and cast your vote!"
+    }
+  ]
+}

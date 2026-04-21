@@ -1,0 +1,7 @@
+[
+  { "name": "John Doe", "country": "USA", "dob": "1990-01-01", "registered": true },
+  { "name": "Jane Smith", "country": "Canada", "dob": "2002-11-15", "registered": false },
+  { "name": "Raj Kumar", "country": "India", "dob": "1995-05-14", "registered": true },
+  { "name": "Priya Sharma", "country": "India", "dob": "2005-08-22", "registered": false },
+  { "name": "Ram Bahadur", "country": "Nepal", "dob": "1988-03-30", "registered": true }
+]
