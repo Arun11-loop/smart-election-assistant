@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useElection } from '../../context/ElectionContext';
 import { processUserMessage } from '../../services/mockLlmService';
 import { GoogleGenAI } from '@google/genai';
