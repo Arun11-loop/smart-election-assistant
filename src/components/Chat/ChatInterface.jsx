@@ -85,9 +85,8 @@ const ChatInterface = () => {
   const handleLanguageChange = (e) => {
     const lang = e.target.value;
     updateState({ language: lang });
-    if (lang !== 'English') {
-      handleSend(`Explain in ${lang}`);
-    }
+    // Always trigger a translation refresh so the current state translates
+    handleSend(`Explain in ${lang}`);
   };
 
   const handleSend = async (text, displayText = null) => {
