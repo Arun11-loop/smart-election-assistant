@@ -1,5 +1,10 @@
 import mockDatabase from './mockDatabase.json';
 
+/**
+ * Calculates the age in years based on a given date of birth.
+ * @param {string} dobString - The date of birth string in YYYY-MM-DD format.
+ * @returns {number} The calculated age in years.
+ */
 const calculateAge = (dobString) => {
   const today = new Date();
   const birthDate = new Date(dobString);
@@ -64,6 +69,14 @@ const translations = {
   }
 };
 
+/**
+ * Translates UI text to the specified language using Gemini or a fallback dictionary.
+ * @param {string} text - The English base text to translate.
+ * @param {string} language - The target language.
+ * @param {string} [dynamicVal1=''] - Optional dynamic value to interpolate.
+ * @param {string} [dynamicVal2=''] - Optional secondary dynamic value to interpolate.
+ * @returns {string} The translated text.
+ */
 const translate = (text, language, dynamicVal1 = '', dynamicVal2 = '') => {
   if (language === 'English' || !translations[language]) return text;
   if (translations[language][text]) return translations[language][text];
@@ -124,6 +137,13 @@ const translateOptions = (optionsArray, language) => {
   return optionsArray.map(opt => translations[language][opt] || opt);
 };
 
+/**
+ * Main state machine engine that processes user inputs and generates AI responses.
+ * @param {string} message - The message input from the user.
+ * @param {Object} currentState - The current election state context object.
+ * @param {Function} updateState - The callback to update the election state context.
+ * @returns {Promise<Object>} The AI response object containing text, options, and actions.
+ */
 export const processUserMessage = async (message, currentState, updateState) => {
   await new Promise(resolve => setTimeout(resolve, 800));
   const lowerMsg = message.toLowerCase();

@@ -235,17 +235,37 @@ const ChatInterface = () => {
               </div>
             )}
             {msg.requiresUpload && (
-              <div className="ocr-upload-container">
-                <input 
-                  type="file" 
-                  id={`id-upload-${index}`} 
-                  accept="image/*" 
-                  onChange={handleFileUpload} 
-                  style={{ display: 'none' }} 
-                />
-                <label htmlFor={`id-upload-${index}`} className="upload-btn animate-fade-in">
-                  📷 Upload Govt ID
-                </label>
+              <div className="input-actions">
+                {userState.awaitingInput === 'OCR_ID' && (
+                  <>
+                    <input 
+                      type="file" 
+                      id="file-upload" 
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      style={{ display: 'none' }}
+                      disabled={isScanning}
+                      aria-label="Upload Government ID Document"
+                    />
+                    <label htmlFor="file-upload" className={`upload-btn ${isScanning ? 'scanning' : ''}`} aria-label="Upload ID Button">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      </svg>
+                    </label>
+                  </>
+                )}
+
+                <button 
+                  type="button"
+                  className={`voice-btn ${isListening ? 'listening' : ''}`}
+                  onClick={toggleListening}
+                  title={isListening ? "Stop listening" : "Start voice input"}
+                  aria-label={isListening ? "Stop voice input" : "Start voice input"}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                </button>
               </div>
             )}
           </div>
@@ -261,29 +281,20 @@ const ChatInterface = () => {
       </div>
 
       <div className="chat-input-area">
-        <button 
-          className={`mic-btn ${isListening ? 'listening' : ''}`}
-          onClick={toggleListening}
-          aria-label="Toggle voice input"
-          title="Voice input"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-          </svg>
-        </button>
         <input 
           type="text" 
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSend(inputValue)}
           placeholder={isListening ? "Listening..." : "Ask me anything..."}
-          aria-label="Chat input"
+          aria-label="Chat Input Field"
+          disabled={isTyping || isScanning}
         />
         <button 
+          type="submit"
           onClick={() => handleSend(inputValue)}
-          disabled={!inputValue.trim() || isTyping}
-          aria-label="Send message"
+          disabled={!inputValue.trim() || isTyping || isScanning}
+          aria-label="Send Message"
         >
           Send
         </button>
